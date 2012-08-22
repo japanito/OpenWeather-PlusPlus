@@ -1,0 +1,16 @@
+.header
+{
+    margin-top: 50px;
+    padding-top: 15px;
+}
+.centered
+{
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+}
+#title
+{
+    font-size: 30pt !important;
+}
