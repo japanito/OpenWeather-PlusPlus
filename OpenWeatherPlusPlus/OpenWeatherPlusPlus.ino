@@ -3,13 +3,16 @@
 #include <DS2409.h>
 #include <DS2423.h>
 #include <Time.h>  
+#ifndef NULL
+#define NULL (void *)0
+#endif
 
 //Pins
 #define PIN_ANEMOMETER  2     // Digital 2
 #define PIN_VANE        5     // Analog 5
 #define PIN_RAIN        3     // Digital 3
 #define PIN_LED_ONE     13    // Digital 13
-OneWire oneWire(4);
+OneWire oneWire(4); //OneWire on Digital 4
 
 DeviceAddress oneWire2438_address = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 }; //This address can be found with the oneWire.search method or the methooneWire provided in the oneWire2409 walk switch example
 DeviceAddress oneWire2423_address = { 0x1D, 0xF1, 0xDF, 0x0F, 0x00, 0x00, 0x00, 0x2D }; //Lightning sensor module
@@ -55,6 +58,7 @@ void setup(void)
   nextCalcSpeed = millis() + MSECS_CALC_WIND_SPEED;
   nextCalcDir   = millis() + MSECS_CALC_WIND_DIR;
   nextCalcRain = millis() + MSECS_CALC_RAIN;
+  unsigned long startTime = millis();
   delay(100);
 }
 
@@ -171,14 +175,20 @@ void calcWindSpeed() {
 }
 //=======================================================
 // Calculate Rain Fall.
-// 1 interrupt = .11 inches of precipitation
+// 1 interrupt = .011 inches of precipitation
 //=======================================================
 
 void calcRainFall() {
-   int rainfall;
-   rainfall = numRainDrops * .11;
-   Serial.print("Rain Fall: ");
-   Serial.print(rainfall);
+   if(millis() - startTime <= 1000*60*60) {
+	   Serial.print("Rain Fall: ");
+	   Serial.print(numRainDrops * .011);
+   }
+   else {
+	   startTime = millis();
+	   numRainDrops = 1;
+	   Serial.print("Rain Fall: ");
+	   Serial.print(numRainDrops * .011);
+   }
    Serial.println();
    Serial.println();
 }
