@@ -24,30 +24,38 @@
 #cloud-img
 {
 	max-width: 120px;
+	height: auto;
 	position: relative;
 	right: 163px;
-	bottom: 30px;
+	bottom: 27px;
 	z-index: -3;
-
 	animation: cloud 5s infinite;
 	-webkit-animation: cloud 5s infinite;
+	-moz-animation: cloud 5s infinite;
 }
 
 
 
 @keyframes cloud
 {
-	from {width: 15% !important}
-	to {width: 18% !important}
+	0% {max-width: 120px}
+	50% {max-width: 125px}
+	100% {max-width: 120px}
 }
 
 @-webkit-keyframes cloud
 {
 	0% {max-width: 120px}
-	
 	50% {max-width: 125px}
-	
 	100% {max-width: 120px}
 }
+
+@-moz-keyframes cloud
+{
+	0% {max-width: 120px}
+	50% {max-width: 125px}
+	100% {max-width: 120px}
+}
+
 
 
