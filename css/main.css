@@ -29,9 +29,9 @@
 	right: 163px;
 	bottom: 27px;
 	z-index: -3;
-	animation: cloud 5s infinite;
+/*	animation: cloud 5s infinite;
 	-webkit-animation: cloud 5s infinite;
-	-moz-animation: cloud 5s infinite;
+	-moz-animation: cloud 5s infinite;*/
 }
 
 
@@ -57,5 +57,16 @@
 	100% {max-width: 120px}
 }
 
+.large-font
+{
+	font-size: 16pt;
+	line-height: 120%;
+	text-align: center;
+}
+.main-button
+{
+	margin-right: 20px;
+	width: 200px !important;
+}
 
 
