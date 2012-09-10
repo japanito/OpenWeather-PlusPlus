@@ -68,5 +68,12 @@
 	margin-right: 20px;
 	width: 200px !important;
 }
-
+.cloud-hidden
+{
+	opacity: 01;
+	position: absolute;
+	top: -90px;
+	left: -800px;
+	z-index: 100;
+}
 
