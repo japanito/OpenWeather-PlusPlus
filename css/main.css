@@ -76,4 +76,7 @@
 	left: -800px;
 	z-index: 100;
 }
-
+#wind-dir-ttip:hover
+{
+	text-decoration: none;
+}

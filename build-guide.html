@@ -7,7 +7,7 @@
         <link type="text/css" href="bootstrap/css/bootstrap-responsive.css" rel="Stylesheet">
         <link type="text/css" href="bootstrap/css/bootstrap.css" rel="Stylesheet"/>
         <link type="text/css" href="css/main.css" rel="Stylesheet"/>
-        <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/build.js"></script>
     </head>
     <body>
         <div class="navbar navbar-fixed-top">
@@ -30,21 +30,59 @@
             <div class="main row-fluid tabbable">
 				</br>
 				<ul class="nav nav-pills nav-stacked span2">
-				  <li class="active"><a href="">1: Introduction</a></li>
-				  <li><a href="#wiring">2: Wiring</a></li>
-				  <li><a href="#wind_dir">3: Wind Direction</a></li>
-				  <li><a href="#wind_spd">4: Wind Speed</a></li>
-				  <li><a href="#rain">5: Rain Guage</a></li>
-				  <li><a href="#temp">6: Tempurature</a></li>
-				  <li><a href="#hum">7: Humidity</a></li>
-				  <li><a href="#solar">8: Solar</a></li>
-				  <li><a href="#bar">9: Barometric Pressure</a></li>
-				  <li><a href="#lighting">10: Lighting</a></li>
+				  <li class="active"><a href="#intro" data-toggle="pill">1: Introduction</a></li>
+				  <li><a href="#wiring" data-toggle="pill">2: Wiring</a></li>
+				  <li><a href="#wind_dir" data-toggle="pill">3: Wind Direction</a></li>
+				  <li><a href="#wind_spd" data-toggle="pill">4: Wind Speed</a></li>
+				  <li><a href="#rain" data-toggle="pill">5: Rain Guage</a></li>
+				  <li><a href="#temp" data-toggle="pill">6: Tempurature</a></li>
+				  <li><a href="#hum" data-toggle="pill">7: Humidity</a></li>
+				  <li><a href="#solar" data-toggle="pill">8: Solar</a></li>
+				  <li><a href="#bar" data-toggle="pill">9: Barometric Pressure</a></li>
+				  <li><a href="#lightning" data-toggle="pill">10: Lightning</a></li>
 				</ul>
 				<div class="span9 pill-content">
-					
+					<div id="intro" class="pill-pane active fade in row-fluid well">
+						OpenWeather++ is currently built around the Arduino. All components are are modular meaning you can pick and choose what to include with your weather station. 
+					</div>
+					<div id="wiring" class="pill-pane fade in row-fluid well">
+						</br>
+						The wiring for OpenWeather++ is built on CAT2 and CAT5. This makes assembling the weather station a snap. All wiring of CAT5 in this tutorial is based on the 'strait-through' cabling standard. If HobbyBoards.com OneWire modules are going to be used in your weather station we recommend using a HobbyBoards powered hub which feeds all of your OneWire modules with 5 volts via RJ-45 ports.
+						</br></br>
+						<div class="span3"></div><img class="img-polaroid span6" src="images/rj45.png"></img>
+					</div>
+					<div id="wind_dir" class="pill-pane fade in row-fluid well">
+						<img class="img-polaroid"></img>
+						</br>
+						Wind Direction is provided by the wind vane module off of the Argent Data Systems weather base. This module uses 8 different resistors, which are able to provide a reading of 16 different headings. The wind vane sends back an analog signal on the <a rel="tooltip" data-placement="top" data-original-title="The inner two wires are used by the anomometer" id="wind-dir-ttip">outer two wires</a> of its CAT2 cable. The OpenWeather++ source code designates Ardiuno analog pin 5 for reading in the wind vane data, however you may change this to whicherver analog pin you like. A 10k pull up resistor from a 5v rail (Arduino or External Source) must make connection to the wind vane data wire on RJ-45 pin 7. The connection is grounded via RJ-45 pin 3.
+						
+					</div>
+					<div id="wind_spd" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							
+					</div>
+					<div id="rain" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div id="temp" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div id="hum" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							
+					</div>
+					<div id="solar" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div id="bar" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div id="lightning" class="pill-pane fade in row-fluid well">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
 				</div>
             </div>
         </div>
     </body>
+	 <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </html>
