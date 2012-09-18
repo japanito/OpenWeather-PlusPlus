@@ -805,16 +805,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 @-moz-keyframes fadeInLeft {
 	0% {
 		opacity: .7;
-		-moz-transform: translate(-500px, -515px);
+		-moz-transform: translate(-500px, -475px);
 		z-index: 2000;
 	}
 	99% {
 		opacity: .7;
-		-moz-transform: translate(1200px, -515px);
+		-moz-transform: translate(1200px, -475px);
 		z-index: 2000;
 	}
 	100% {
-		-moz-transform: translate(1200px, -515px);
+		-moz-transform: translate(1200px, -475px);
 		opacity: 0;
 	}
 }
