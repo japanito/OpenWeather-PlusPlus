@@ -793,11 +793,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	}
 	99% {
 		opacity: .7;
-		-webkit-transform: translate(1200px, -515px);
+		-webkit-transform: translate(1800px, -515px);
 		z-index: 2000;
 	}
 	100% {
-		-webkit-transform: translate(1200px, -515px);
+		-webkit-transform: translate(1800px, -515px);
 		opacity: 0;
 	}
 }
@@ -810,11 +810,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	}
 	99% {
 		opacity: .7;
-		-moz-transform: translate(1200px, -475px);
+		-moz-transform: translate(1800px, -475px);
 		z-index: 2000;
 	}
 	100% {
-		-moz-transform: translate(1200px, -475px);
+		-moz-transform: translate(1800px, -475px);
 		opacity: 0;
 	}
 }
@@ -827,11 +827,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	}
 	99% {
 		opacity: .7;
-		-o-transform: translate(1200px, -515px);
+		-o-transform: translate(1800px, -515px);
 		z-index: 2000;
 	}
 	100% {
-		-o-transform: translate(1200px, -515px);
+		-o-transform: translate(1800px, -515px);
 		opacity: 0;
 	}
 
@@ -845,21 +845,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	}
 	99% {
 		opacity: .7;
-		transform: translate(1200px, -515px);
+		transform: translate(1800px, -515px);
 		z-index: 2000;
 	}
 	100% {
-		transform: translate(1200px, -515px);
+		transform: translate(1800px, -515px);
 		opacity: 0;
 	}
 
 }
 
 .fadeInLeft {
-	-webkit-animation: fadeInLeft 17s linear;
-	-moz-animation: fadeInLeft 17s linear;
-	-o-animation: fadeInLeft 17s linear;
-	animation: fadeInLeft 17s linear;
+	-webkit-animation: fadeInLeft 20s linear;
+	-moz-animation: fadeInLeft 20s linear;
+	-o-animation: fadeInLeft 20s linear;
+	animation: fadeInLeft 20s linear;
 }
 @-webkit-keyframes fadeInRight {
 	0% {
