@@ -8,6 +8,13 @@
         <link type="text/css" href="bootstrap/css/bootstrap.css" rel="Stylesheet"/>
         <link type="text/css" href="css/main.css" rel="Stylesheet"/>
 		<script type="text/javascript" src="js/build.js"></script>
+		<link href="css/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                prettyPrint();
+            });
+        </script>
     </head>
     <body>
         <div class="navbar navbar-fixed-top">
@@ -34,7 +41,7 @@
 				  <li><a href="#wiring" data-toggle="pill">2: Wiring</a></li>
 				  <li><a href="#wind_dir" data-toggle="pill">3: Wind Direction</a></li>
 				  <li><a href="#wind_spd" data-toggle="pill">4: Wind Speed</a></li>
-				  <li><a href="#rain" data-toggle="pill">5: Rain Guage</a></li>
+				  <li><a href="#rain" data-toggle="pill">5: Rain Gauge</a></li>
 				  <li><a href="#temp" data-toggle="pill">6: Tempurature</a></li>
 				  <li><a href="#hum" data-toggle="pill">7: Humidity</a></li>
 				  <li><a href="#solar" data-toggle="pill">8: Solar</a></li>
@@ -43,26 +50,226 @@
 				</ul>
 				<div class="span9 pill-content">
 					<div id="intro" class="pill-pane active fade in row-fluid well">
-						OpenWeather++ is currently built around the Arduino. All components are are modular meaning you can pick and choose what to include with your weather station. 
+					    <h2 class="centered-text">Intro</h2>
+						OpenWeather++ is currently built around the Arduino. All components are are modular with the exception of the Argent Data Systems Weather Sensor Assembly. You can pick and choose what to include with your weather station.</br>Although the system prototype is built around an Arduino, an Atmel ATmega328 may be substituted to cut the size of the central processing unit. Certain modules may be configured to work with similar Atmel AVR chips such as the ATtiny series. For a full build of OpenWeather++ we recommend an ATmega328 or equivalent prototyping board due to the limited programmable flash memory and lack of native SPI and I2C on some ATtiny chips.
 					</div>
 					<div id="wiring" class="pill-pane fade in row-fluid well">
+					    <h2 class="centered-text">Wiring</h2>
 						</br>
 						The wiring for OpenWeather++ is built on CAT2 and CAT5. This makes assembling the weather station a snap. All wiring of CAT5 in this tutorial is based on the 'strait-through' cabling standard. If HobbyBoards.com OneWire modules are going to be used in your weather station we recommend using a HobbyBoards powered hub which feeds all of your OneWire modules with 5 volts via RJ-45 ports.
 						</br></br>
 						<div class="span3"></div><img class="img-polaroid span6" src="images/rj45.png"></img>
 					</div>
 					<div id="wind_dir" class="pill-pane fade in row-fluid well">
-						<img class="img-polaroid"></img>
-						</br>
-						Wind Direction is provided by the wind vane module off of the Argent Data Systems weather base. This module uses 8 different resistors, which are able to provide a reading of 16 different headings. The wind vane sends back an analog signal on the <a rel="tooltip" data-placement="top" data-original-title="The inner two wires are used by the anomometer" id="wind-dir-ttip">outer two wires</a> of its CAT2 cable. The OpenWeather++ source code designates Ardiuno analog pin 5 for reading in the wind vane data, however you may change this to whicherver analog pin you like. A 10k pull up resistor from a 5v rail (Arduino or External Source) must make connection to the wind vane data wire on RJ-45 pin 7. The connection is grounded via RJ-45 pin 3.
-						
+					    <h2 class="centered-text">Wind Direction</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src="images/windvane.jpeg"></img>
+						    </br>
+						    <h3>Overview</h3>
+						    <span class="span7">Wind Direction is provided by the wind vane module on the Argent Data Systems weather base. This module uses 8 different resistors, which are able to provide a reading of 16 different headings. The wind vane sends back an analog signal on the <a rel="tooltip" data-placement="top" data-original-title="The inner two wires are used by the anomometer" id="wind-dir-ttip">outer two wires</a> of its CAT2 cable. The OpenWeather++ source code designates Ardiuno analog pin 5 for reading in the wind vane data, however you may change this to whicherver analog pin you like. A 10k pull up resistor from a 5v rail (Arduino or External Source) must make connection to the wind vane data wire on RJ-45 pin 7. The connection is grounded via RJ-45 pin 3.</span></br>
+                            </div>
+                            <div>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>The wind vane is initialized with the following statements</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #define PIN_VANE    5     // Analog 5
+    #define ulong unsigned long //shorthand type
+    #define NUMDIRS 8   //define num directions
+    #define MSECS_CALC_WIND_DIR   1000</code></pre>
+    
+                            <h5>The next section of code sets up a few variables to deal with the different directions</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code >ulong   adc[NUMDIRS] = {26, 45, 77, 118, 161, 196, 220, 256};
+    // These directions match 1-for-1 with the values in adc, but
+    // will have to be adjusted as noted above. Modify 'dirOffset'
+    // to which direction is 'away' (it's West here).
+    char *strVals[NUMDIRS] = {"W","NW","N","SW","NE","S","SE","E"};
+    byte dirOffset=0;
+    ulong nextCalcDir;                  // When we next calc the direction
+    ulong time;                         // Millis() at each start of loop().</code></pre>
+    
+                            <h5>Code to add to the setup() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>Serial.begin(9600); //For serial debugging
+    nextCalcDir = millis() + MSECS_CALC_WIND_DIR; //set time to calculate
+    unsigned long startTime = millis(); //set start time</code></pre>
+    
+                            <h5>Code to add to the loop() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>time = millis(); //get the current time
+    if (time >= nextCalcDir) { //if current time is greater or equal to time to calculate
+        calcWindDir(); //call the wind direction calculating function
+        nextCalcDir = time + MSECS_CALC_WIND_DIR; //set the next time to calculate
+    }</code></pre>
+    
+                            <h5>The calcWindDir() prototype</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>void calcWindDir() {
+        int val;
+        byte x, reading;
+        val = analogRead(PIN_VANE);
+        val >>=2;                        // Shift to 255 range
+        reading = val;
+        // Look the reading up in directions table. Find the first value
+        // that's >= to what we got.
+        for (x=0; x&ltNUMDIRS; x++) {
+          if (adc[x] &gt= reading)
+             break;
+        }
+        x = (x + dirOffset) % 8;   // Adjust for orientation
+        Serial.print("Dir: ");
+        Serial.print(strVals[x]);
+        Serial.println();
+    }</code></pre>
+						</div>
+						<div>
+						    <h3 class="centered-text">Unit Testing</h3>
+						    <div class="well">
+						    Unit testing is performed with the wind vane, an Arduino linked to a PC with serial out debugging enabled, or another means of reading the reported wind vane direction, and a compass that has an error tolerance no greater than 2&deg.
+						    Perform the following steps to ensure the wind vane is within an acceptable means of error tolerance, which for this module is 15&deg.
+						    <ol>
+						        <li>Emplace the weather unit in a fixed stable position for testing</li>
+						        <li>Find magnetic north with the reference compass</li>
+						        <li>Rotate the wind vane until its reading show north. There are small cardinal direction guide markings on the top of the non-moving element of the wind vane</li>
+						        <li>Keeping the wind vane module static & ensuring that it stays reading north, rotate the weather station assembly until the wind vane is aligned with the compass's magnetic north azimuth</li>
+						        <li>Rotate the wind vane 45&deg clockwise</li>
+						        <li>Using the compass, shoot an azimuth aligned with the wind vane. The wind vane should read NE while the compass 45&deg.</li>
+						        <li>Rinse and repeat for all cardinal and ordinal directions</li>
+						    </ol>
+						    If your wind vane module is off at any directions this probably means it has an error tolerance greater than 15&deg and needs to be replaced as calibration is not within the scope of this tutorial.
+						    </div>
+						</div>
 					</div>
 					<div id="wind_spd" class="pill-pane fade in row-fluid well">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							
+					    <h2 class="centered-text">Wind Speed</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src="images/anomometer.jpeg"></img>
+						    </br>
+						    <h3>Overview</h3>
+                            <span class="span7">The anemometer module is the unit responsible for measuring wind speed. It accomplishes this by using tripping a contact as it spins with the wind. The anemometer data is transfered on the same CAT 2 cable as the wind vane, however it uses the inner two pins. When wiring this into an RJ-45 jack, pin 4 on the jack will be connected to ground. Pin 8 is connected to the Arduino digital pin 2 with a 10k pull up resistor connected to 5 volt line. Note that one interrupt per second is equivalent to a wind speed of 1.492 MPH or 2.4 km/h.</span>
+                            </div>
+                            <div>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>The wind vane is initialized with the following statements</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #define PIN_ANEMOMETER  2     // Digital 2
+    #define uint  unsigned int
+    #define ulong unsigned long</code></pre>
+    
+                            <h5>The next section of code sets up a few variables for timing and calculation</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>// How often we want to calculate wind speed or direction
+    #define MSECS_CALC_WIND_SPEED 1000
+    volatile int numRevsAnemometer = 0; // Incremented in the interrupt
+    ulong nextCalcSpeed;                // When we next calc the wind speed
+    ulong time;                         // Millis() at each start of loop().</code></pre>
+    
+                            <h5>Code to add to the setup() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>Serial.begin(9600); //For serial debugging
+    pinMode(PIN_ANEMOMETER, INPUT);
+    digitalWrite(PIN_ANEMOMETER, HIGH);
+    attachInterrupt(0, countAnemometer, FALLING);
+    nextCalcSpeed = millis() + MSECS_CALC_WIND_SPEED;
+    unsigned long startTime = millis(); //set start time</code></pre>
+    
+                            <h5>Code to add to the loop() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>time = millis(); //get the current time
+    if (time >= nextCalcSpeed) {
+        calcWindSpeed();
+        nextCalcSpeed = time + MSECS_CALC_WIND_SPEED;
+    }</code></pre>
+    
+                            <h5>The countAnemometer() prototype</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>void countAnemometer() {
+       numRevsAnemometer++;
+    }</code></pre>
+                            <h5>The calcWindSpeed() prototype</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>void calcWindSpeed() {
+       int x, iSpeed;
+       // This will produce mph * 10
+       long speed = 14920;
+       speed *= numRevsAnemometer;
+       speed /= MSECS_CALC_WIND_SPEED;
+       iSpeed = speed;         // Need this for formatting below
+       Serial.print("Wind speed: ");
+       x = iSpeed / 100;
+       Serial.print(x);
+       Serial.print('.');
+       x = iSpeed % 10;
+       Serial.print(x);
+       Serial.println();
+       numRevsAnemometer = 0;        // Reset counter
+    }</code></pre>
+						</div>
+						<div>
+						    <h3 class="centered-text">Unit Testing</h3>
+						    <div class="well">
+						    <ol>
+						    </ol>
+						    </div>
+						</div>
 					</div>
 					<div id="rain" class="pill-pane fade in row-fluid well">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					    <h2 class="centered-text">Rain Gauge</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src="images/rain.jpeg"></img>
+						    </br>
+						    <h3>Overview</h3>
+                            <span class="span7">The rain meter module functions on the design of a tip bucket. That is to say that after the bucket inside of the module fills to a certain threshold (.011" of precipitation) it tips to either side causing a contact closure in the circuit. The tip bucket then empties itself and moves to it's initial position waiting to fill up again. The rain gauge operates on its own CAT 2 cable. When plugged into an RJ-45 port the rain gauge is grounded on pin 4. Data is transmitted on pin 8. The data line is wired to Arduino pin 4 and must be connected to a 5 volt line via a 10 k pull up resistor.</span>
+                            </div>
+                            <div>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>The rain gauge is initialized with the following statements</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #define PIN_RAIN        3     // Digital 3
+    #define uint  unsigned int
+    #define ulong unsigned long</code></pre>
+    
+                            <h5>The next section of code sets up a few variables for timing and calculation</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>// How often we want to calculate wind speed or direction
+    #define MSECS_CALC_RAIN 60000 //60 second interval
+    volatile int numRainDrops = 0; // Incremented in the interrupt
+    ulong nextCalcRain;                // When we next calc the wind speed
+    ulong time;                         // Millis() at each start of loop().</code></pre>
+    
+                            <h5>Code to add to the setup() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>Serial.begin(9600); //For serial debugging
+    digitalWrite(PIN_RAIN, HIGH);
+    digitalWrite(PIN_ANEMOMETER, HIGH);
+    attachInterrupt(1, countRain, FALLING); //Fire countRain when the line goes from high to low
+    nextCalcRain = millis() + MSECS_CALC_RAIN;
+    unsigned long startTime = millis(); //set start time</code></pre>
+    
+                            <h5>Code to add to the loop() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>time = millis(); //get the current time
+    if (time >= nextCalcSpeed) {
+        calcWindSpeed();
+        nextCalcSpeed = time + MSECS_CALC_WIND_SPEED;
+    }</code></pre>
+    
+                            <h5>The countRain() prototype</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>void countRain() {
+       numRainDrops++;
+    }</code></pre>
+                            <h5>The calcRainFall() prototype</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>void calcRainFall() {
+        Serial.print("Rain Fall: "); //debugging mode
+        Serial.print(numRainDrops * .011);
+    }</code></pre>
+						</div>
+						<div>
+						    <h3 class="centered-text">Unit Testing</h3>
+						    <div class="well">
+						    <ol>
+						    </ol>
+						    </div>
+						</div>
 					</div>
 					<div id="temp" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

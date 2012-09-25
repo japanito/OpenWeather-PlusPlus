@@ -10,6 +10,10 @@
     margin-right: auto !important;
     text-align: center;
 }
+.centered-text
+{
+    text-align: center;
+}
 #title
 {
 	font-size: 2.75em !important;
@@ -79,4 +83,16 @@
 #wind-dir-ttip:hover
 {
 	text-decoration: none;
+}
+.padded-image 
+{
+    margin-right: 25px;
+}
+.code-blox
+{
+    padding-left: 15px !important;
+}
+.guide-overview
+{
+    padding-right: 30px !important;
 }
