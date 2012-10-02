@@ -206,7 +206,13 @@
 						<div>
 						    <h3 class="centered-text">Unit Testing</h3>
 						    <div class="well">
+							Unit testing for the anemometer is accomplished with an <a rel="tooltip" data-placement="bottom" data-original-title="OpenWeather++ accepts no responsiblity for the actions taken by the end user" id="wind-dir-ttip">automobile</a> with an accurate speed gauge or a <a rel="tooltip" data-placement="bottom" data-original-title="Probably a much safer form of testing than an automobile" id="wind-dir-ttip">wind chamber</a>. Testing with a motor vehicle should be done in a controlled environment and not on an open road. For testing with an automobile complete the following steps.
 						    <ol>
+								<li>With the anemometer either helped by an assistant or secured to the interior passenger side of the vehicle along with a computer for reading the data, position the anemometer slightly outside of the passenger window.</li>
+								<li>Safely begin operating the vehicle at a steady 10 miles per hour. One the vehicle has reached 10 MPH, begin data logging. Keep the speed for a long enough period of time to get enough data for a good average speed reading from the anemometer.</li>
+								<li>After stopping the vehicle, calculate the average speed readings. If the average is greater than or less than 10 MPH by 1 MPH, annotate as a note and proceed with the next step.</li>
+								<li>Repeat steps one through three increasing the speed of the vehicle by 10 MPH with each increment all the way up to 30 MPH.</li>
+								<li>If the error of the anemometer is linear, it may be corrected in the code with an adjustment. If the error is not linear and is sporadic there is an error in the module and it needs to be replaced.</li>
 						    </ol>
 						    </div>
 						</div>
@@ -266,7 +272,12 @@
 						<div>
 						    <h3 class="centered-text">Unit Testing</h3>
 						    <div class="well">
+							Testing of the rain gauge is done with a cup of water, and exactly <a rel="tooltip" data-placement="top" data-original-title="2.77056 Fluid Ounces" id="wind-dir-ttip">5 cubic inches</a> of water, a container to catch the water exiting the gauge. and a computer for data logging.
 						    <ol>
+								<li>Begin data logging with the computer and slowly pour the water into the rain gauge.</li>
+								<li>After all the water has been poured into the rain gauge check the total reported precipitation</li>
+								<li>If the rain gauge is reports a sum with a tolerance greater than .1 inches check the code to ensure each interrupt is measured as .011".</li>
+								<li>If the code is correct and the gauge is has an tolerance of error greater than .5" the unit is defective and needs to be replaced"</li>
 						    </ol>
 						    </div>
 						</div>
