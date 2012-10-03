@@ -1,7 +1,7 @@
 #include <OneWire.h>
-#include <DS2438.h>
-#include <DS2409.h>
-#include <DS2423.h>
+#include <DS2438.h> //OneWire Battary Monitor found in HobbyBoards Tempurature, Humidity & Solar sensor, as well as Barometer
+#include <DS2409.h> //OneWire hub IC
+#include <DS2423.h> //Lightning Sensor
 #include <Time.h>  
 #ifndef NULL
 #define NULL (void *)0
@@ -14,7 +14,8 @@
 #define PIN_LED_ONE     13    // Digital 13
 OneWire oneWire(4); //OneWire on Digital 4
 
-DeviceAddress oneWire2438_address = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 }; //This address can be found with the oneWire.search method or the methooneWire provided in the oneWire2409 walk switch example
+DeviceAddress barometer = { 0x26, 0xE8, 0x99, 0xBC, 0x00, 0x00, 0x00, 0x2E} //Address of barometer
+DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 }; //This address can be found with the oneWire.search method or the method oneWire provided in the oneWire2408 walk switch example. This utility is provided as a sketch in the library (It is set to use digital pin 10)
 DeviceAddress oneWire2423_address = { 0x1D, 0xF1, 0xDF, 0x0F, 0x00, 0x00, 0x00, 0x2D }; //Lightning sensor module
 byte oneWire18x20_address[] = {0x10,0x0F,0x43,0x5B,0x02,0x08,0x00,0x0D}; //DS1820 temp sensor
 #define TIME_MSG_LEN  11   // time sync to PC is HEADER followed by Unix time_t as ten ASCII digits
@@ -40,14 +41,14 @@ ulong   adc[NUMDIRS] = {26, 45, 77, 118, 161, 196, 220, 256};
 char *strVals[NUMDIRS] = {"W","NW","N","SW","NE","S","SE","E"};
 byte dirOffset=0;
 
-ds2438 oneWire2438(&oneWire, oneWire2438_address); //Create the instance ofthe oneWire2438 class
-
+hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the ds2438 class for humidty, temp and solar module
+barometer ds2438(&oneWire, barometer); //Create the instance of the ds2438 class for the barmometer
 
 
 void setup(void)
 {
   Serial.begin(9600);
-  oneWire2438.writeSetup(0x08);
+  hum_temp_sol.writeSetup(0x08); //Set register to read humidity over solar
   pinMode(PIN_ANEMOMETER, INPUT);
   pinMode(PIN_RAIN, INPUT);
   pinMode(PIN_LED_ONE, OUTPUT);
@@ -68,16 +69,19 @@ void loop(void)
   Serial.print(getTemp());
   Serial.println();
   Serial.print("Temp F (2438): ");
-  Serial.print(oneWire2438.readTempF());
+  Serial.print(hum_temp_sol.readTempF());
   Serial.println();
   Serial.print("% RH: ");
-  Serial.print(oneWire2438.readHum()); //Note that readHum may need to be modified if your sensor deviates from the formulas used with the HIH-4000
+  Serial.print(hum_temp_sol.readHum()); //Note that readHum may need to be modified if your sensor deviates from the formulas used with the HIH-4000
   Serial.println();
   Serial.print("Solar Current in mA: ");
-  Serial.print(oneWire2438.readCurrent());
+  Serial.print(hum_temp_sol.readCurrent());
   Serial.println();
   Serial.print("Solar Energy W/M^2: ");
-  Serial.print(oneWire2438.readCurrent()*.0001*1157598);
+  Serial.print(hum_temp_sol.readCurrent()*.0001*1157598);
+  Serial.println();
+  Serial.print("Barometric Pressure (inHG): ");
+  Serial.print(barmometer.readAD());
   Serial.println();
   time = millis();
   if (time >= nextCalcSpeed) {
@@ -192,3 +196,4 @@ void calcRainFall() {
    Serial.println();
    Serial.println();
 }
+
