@@ -14,8 +14,8 @@
 #define PIN_LED_ONE     13    // Digital 13
 OneWire oneWire(4); //OneWire on Digital 4
 
-DeviceAddress barometer = { 0x26, 0xE8, 0x99, 0xBC, 0x00, 0x00, 0x00, 0x2E} //Address of barometer
-DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 }; //This address can be found with the oneWire.search method or the method oneWire provided in the oneWire2408 walk switch example. This utility is provided as a sketch in the library (It is set to use digital pin 10)
+DeviceAddress barometer_add = { 0x26, 0xE8, 0x99, 0xBC, 0x00, 0x00, 0x00, 0x2E}; //Address of barometer
+DeviceAddress humidity_temp_solar_add = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 }; //This address can be found with the oneWire.search method or the method oneWire provided in the oneWire2408 walk switch example. This utility is provided as a sketch in the library (It is set to use digital pin 10)
 DeviceAddress oneWire2423_address = { 0x1D, 0xF1, 0xDF, 0x0F, 0x00, 0x00, 0x00, 0x2D }; //Lightning sensor module
 byte oneWire18x20_address[] = {0x10,0x0F,0x43,0x5B,0x02,0x08,0x00,0x0D}; //DS1820 temp sensor
 #define TIME_MSG_LEN  11   // time sync to PC is HEADER followed by Unix time_t as ten ASCII digits
@@ -41,8 +41,8 @@ ulong   adc[NUMDIRS] = {26, 45, 77, 118, 161, 196, 220, 256};
 char *strVals[NUMDIRS] = {"W","NW","N","SW","NE","S","SE","E"};
 byte dirOffset=0;
 
-hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the ds2438 class for humidty, temp and solar module
-barometer ds2438(&oneWire, barometer); //Create the instance of the ds2438 class for the barmometer
+ds2438 hum_temp_sol(&oneWire, humidity_temp_solar_add); //Create the instance of the ds2438 class for humidty, temp and solar module
+ds2438 barometer(&oneWire, barometer_add); //Create the instance of the ds2438 class for the barmometer
 
 
 void setup(void)
@@ -81,7 +81,7 @@ void loop(void)
   Serial.print(hum_temp_sol.readCurrent()*.0001*1157598);
   Serial.println();
   Serial.print("Barometric Pressure (inHG): ");
-  Serial.print(barmometer.readAD());
+  Serial.print(barometer.readAD());
   Serial.println();
   time = millis();
   if (time >= nextCalcSpeed) {
@@ -183,16 +183,8 @@ void calcWindSpeed() {
 //=======================================================
 
 void calcRainFall() {
-   if(millis() - startTime <= 1000*60*60) {
-	   Serial.print("Rain Fall: ");
-	   Serial.print(numRainDrops * .011);
-   }
-   else {
-	   startTime = millis();
-	   numRainDrops = 1;
-	   Serial.print("Rain Fall: ");
-	   Serial.print(numRainDrops * .011);
-   }
+   Serial.print("Rain Fall: ");
+   Serial.print(numRainDrops * .011);
    Serial.println();
    Serial.println();
 }
