@@ -282,8 +282,44 @@
 						    </div>
 						</div>
 					</div>
-					<div id="temp" class="pill-pane fade in row-fluid well">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					<div id="bar" class="pill-pane fade in row-fluid well">
+					    <h2 class="centered-text">HobbyBoards Barometer Module</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src=""></img>
+						    </br>
+						    <h3 class="offset3 span1">Overview</h3>
+                            <span class="span7">The HobbyBoards Barometer Module consists of a LM78L12 linear voltage regulator, an MPXA4115A pressure sensor, and a DS2438 battery sensor (ADC) all on a circuit board with dual RJ-45 ports. This module communicates using the proprietry Dallas Semiconductor One-Wire protocal. This module requires a power supply with an output voltage between 15 and 24 volts, however we have been able to get the module to work properly under an input voltage of 14 volts, infact documntation on the LM78L12 states that the minimum input voltage is 13.7 volts. The MPXA4115A pressure sensor outputs analog voltage according to its pressure. This output voltage is fed to the DS2438 where it is converted into a digital value and transfered over the OneWire network. To read more about the inner working of the IC's on this module see the related documentation under the Resources section of the site.</span>
+                            </div>
+                            <div>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>Required Libraries</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #include &ltOneWire.h&gt
+    #include &ltDS2438.h&gt //OneWire Battary Monitor found in the Tempurature, Humidity & Solar sensor, as well as Barometer</code></pre>
+    
+                            <h5>Initialization</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>OneWire oneWire(4); //OneWire on Digital 4
+    DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 };//Aquired with OneWireSniffer.ino
+    hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the class for humidty, temp & solar module</code></pre>
+    
+                            <h5>Code to add to the setup() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>Serial.begin(9600); //For serial debugging</code></pre>
+    
+                            <h5>Code to add to the loop() function</h5>
+                            <pre class="prettyprint linenums code-blox"><code>    Serial.println(); //This line and the next are only necessary for serial debugging/demonstration
+    Serial.print("Barometric Pressure (inHG): ");
+    Serial.print(barometer.readAD());</code></pre>
+						</div>
+						<h3 class="centered-text">About the Formula</h3>
+						<div>
+							The MPXA4115A has blah blah blah....
+						</div>
+						<div>
+						    <h3 class="centered-text">Unit Testing</h3>
+						    <div class="well">
+						    </div>
+						</div>
 					</div>
 					<div id="hum" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -292,7 +328,7 @@
 					<div id="solar" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</div>
-					<div id="bar" class="pill-pane fade in row-fluid well">
+					<div id="temp" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</div>
 					<div id="lightning" class="pill-pane fade in row-fluid well">
