@@ -42,7 +42,7 @@
 				  <li><a href="#wind_dir" data-toggle="pill">3: Wind Direction</a></li>
 				  <li><a href="#wind_spd" data-toggle="pill">4: Wind Speed</a></li>
 				  <li><a href="#rain" data-toggle="pill">5: Rain Gauge</a></li>
-				  <li><a href="#temp" data-toggle="pill">6: Tempurature</a></li>
+				  <li><a href="#temp" data-toggle="pill">6: Temperature</a></li>
 				  <li><a href="#hum" data-toggle="pill">7: Humidity</a></li>
 				  <li><a href="#solar" data-toggle="pill">8: Solar</a></li>
 				  <li><a href="#bar" data-toggle="pill">9: Barometric Pressure</a></li>
@@ -66,7 +66,7 @@
 						    <img class="img-polaroid span4 padded-image" src="images/windvane.jpeg"></img>
 						    </br>
 						    <h3>Overview</h3>
-						    <span class="span7">Wind Direction is provided by the wind vane module on the Argent Data Systems weather base. This module uses 8 different resistors, which are able to provide a reading of 16 different headings. The wind vane sends back an analog signal on the <a rel="tooltip" data-placement="top" data-original-title="The inner two wires are used by the anomometer" id="wind-dir-ttip">outer two wires</a> of its CAT2 cable. The OpenWeather++ source code designates Ardiuno analog pin 5 for reading in the wind vane data, however you may change this to whicherver analog pin you like. A 10k pull up resistor from a 5v rail (Arduino or External Source) must make connection to the wind vane data wire on RJ-45 pin 7. The connection is grounded via RJ-45 pin 3.</span></br>
+						    <span class="span7">Wind Direction is provided by the wind vane module on the Argent Data Systems weather base. This module uses 8 different resistors, which are able to provide a reading of 16 different headings. The wind vane sends back an analog signal on the <a rel="tooltip" data-placement="top" data-original-title="The inner two wires are used by the anomometer" id="wind-dir-ttip">outer two wires</a> of its CAT2 cable. The OpenWeather++ source code designates Arduino analog pin 5 for reading in the wind vane data, however you may change this to whichever analog pin you like. A 10k pull up resistor from a 5v rail (Arduino or External Source) must make connection to the wind vane data wire on RJ-45 pin 7. The connection is grounded via RJ-45 pin 3.</span></br>
                             </div>
                             <div>
                             <h3 class="centered-text">Source Code</h3>
@@ -145,7 +145,7 @@
 						    <img class="img-polaroid span4 padded-image" src="images/anomometer.jpeg"></img>
 						    </br>
 						    <h3>Overview</h3>
-                            <span class="span7">The anemometer module is the unit responsible for measuring wind speed. It accomplishes this by using tripping a contact as it spins with the wind. The anemometer data is transfered on the same CAT 2 cable as the wind vane, however it uses the inner two pins. When wiring this into an RJ-45 jack, pin 4 on the jack will be connected to ground. Pin 8 is connected to the Arduino digital pin 2 with a 10k pull up resistor connected to 5 volt line. Note that one interrupt per second is equivalent to a wind speed of 1.492 MPH or 2.4 km/h.</span>
+                            <span class="span7">The anemometer module is the unit responsible for measuring wind speed. It accomplishes this by using tripping a contact as it spins with the wind. The anemometer data is transferred on the same CAT 2 cable as the wind vane, however it uses the inner two pins. When wiring this into an RJ-45 jack, pin 4 on the jack will be connected to ground. Pin 8 is connected to the Arduino digital pin 2 with a 10k pull up resistor connected to 5 volt line. Note that one interrupt per second is equivalent to a wind speed of 1.492 MPH or 2.4 km/h.</span>
                             </div>
                             <div>
                             <h3 class="centered-text">Source Code</h3>
@@ -209,7 +209,7 @@
 							Unit testing for the anemometer is accomplished with an <a rel="tooltip" data-placement="bottom" data-original-title="OpenWeather++ accepts no responsiblity for the actions taken by the end user" id="wind-dir-ttip">automobile</a> with an accurate speed gauge or a <a rel="tooltip" data-placement="bottom" data-original-title="Probably a much safer form of testing than an automobile" id="wind-dir-ttip">wind chamber</a>. Testing with a motor vehicle should be done in a controlled environment and not on an open road. For testing with an automobile complete the following steps.
 						    <ol>
 								<li>With the anemometer either helped by an assistant or secured to the interior passenger side of the vehicle along with a computer for reading the data, position the anemometer slightly outside of the passenger window.</li>
-								<li>Safely begin operating the vehicle at a steady 10 miles per hour. One the vehicle has reached 10 MPH, begin data logging. Keep the speed for a long enough period of time to get enough data for a good average speed reading from the anemometer.</li>
+								<li>Safely begin operating the vehicle at a steady 10 miles per hour. Once the vehicle has reached 10 MPH, begin data logging. Keep the speed for a long enough period of time to get enough data for a good average speed reading from the anemometer.</li>
 								<li>After stopping the vehicle, calculate the average speed readings. If the average is greater than or less than 10 MPH by 1 MPH, annotate as a note and proceed with the next step.</li>
 								<li>Repeat steps one through three increasing the speed of the vehicle by 10 MPH with each increment all the way up to 30 MPH.</li>
 								<li>If the error of the anemometer is linear, it may be corrected in the code with an adjustment. If the error is not linear and is sporadic there is an error in the module and it needs to be replaced.</li>
@@ -223,7 +223,7 @@
 						    <img class="img-polaroid span4 padded-image" src="images/rain.jpeg"></img>
 						    </br>
 						    <h3>Overview</h3>
-                            <span class="span7">The rain meter module functions on the design of a tip bucket. That is to say that after the bucket inside of the module fills to a certain threshold (.011" of precipitation) it tips to either side causing a contact closure in the circuit. The tip bucket then empties itself and moves to it's initial position waiting to fill up again. The rain gauge operates on its own CAT 2 cable. When plugged into an RJ-45 port the rain gauge is grounded on pin 4. Data is transmitted on pin 8. The data line is wired to Arduino pin 4 and must be connected to a 5 volt line via a 10 k pull up resistor.</span>
+                            <span class="span7">The rain meter module functions on the design of a tip bucket. That is to say that after the bucket inside of the module fills to a certain threshold (.011" of precipitation) it tips to either side causing a contact closure in the circuit. The tip bucket then empties itself and moves to its initial position waiting to fill up again. The rain gauge operates on its own CAT 2 cable. When plugged into an RJ-45 port the rain gauge is grounded on pin 4. Data is transmitted on pin 8. The data line is wired to Arduino pin 4 and must be connected to a 5 volt line via a 10k pull up resistor.</span>
                             </div>
                             <div>
                             <h3 class="centered-text">Source Code</h3>
@@ -272,12 +272,12 @@
 						<div>
 						    <h3 class="centered-text">Unit Testing</h3>
 						    <div class="well">
-							Testing of the rain gauge is done with a cup of water, and exactly <a rel="tooltip" data-placement="top" data-original-title="2.77056 Fluid Ounces" id="wind-dir-ttip">5 cubic inches</a> of water, a container to catch the water exiting the gauge. and a computer for data logging.
+							Testing of the rain gauge is done with a cup of water, and exactly <a rel="tooltip" data-placement="top" data-original-title="2.77056 Fluid Ounces" id="wind-dir-ttip">5 cubic inches</a> of water, a container to catch the water exiting the gauge, and a computer for data logging.
 						    <ol>
 								<li>Begin data logging with the computer and slowly pour the water into the rain gauge.</li>
 								<li>After all the water has been poured into the rain gauge check the total reported precipitation</li>
 								<li>If the rain gauge is reports a sum with a tolerance greater than .1 inches check the code to ensure each interrupt is measured as .011".</li>
-								<li>If the code is correct and the gauge is has an tolerance of error greater than .5" the unit is defective and needs to be replaced"</li>
+								<li>If the code is correct and the gauge is has a tolerance of error greater than .5" the unit is defective and needs to be replaced"</li>
 						    </ol>
 						    </div>
 						</div>
@@ -288,19 +288,19 @@
 						    <img class="img-polaroid span4 padded-image" src=""></img>
 						    </br>
 						    <h3 class="offset3 span1">Overview</h3>
-                            <span class="span7">The HobbyBoards Barometer Module consists of a LM78L12 linear voltage regulator, an MPXA4115A pressure sensor, and a DS2438 battery sensor (ADC) all on a circuit board with dual RJ-45 ports. This module communicates using the proprietry Dallas Semiconductor One-Wire protocal. This module requires a power supply with an output voltage between 15 and 24 volts, however we have been able to get the module to work properly under an input voltage of 14 volts, infact documntation on the LM78L12 states that the minimum input voltage is 13.7 volts. The MPXA4115A pressure sensor outputs analog voltage according to its pressure. This output voltage is fed to the DS2438 where it is converted into a digital value and transfered over the OneWire network. To read more about the inner working of the IC's on this module see the related documentation under the Resources section of the site.</span>
+                            <span class="span7">The HobbyBoards Barometer Module consists of a LM78L12 linear voltage regulator, an MPXA4115A pressure sensor, and a DS2438 battery sensor (ADC) all on a circuit board with dual RJ-45 ports. This module communicates using the proprietary Dallas Semiconductor One-Wire protocol. This module requires a power supply with an output voltage between 15 and 24 volts, however we have been able to get the module to work properly under an input voltage of 14 volts, in fact documentation on the LM78L12 states that the minimum input voltage is 13.7 volts. The MPXA4115A pressure sensor outputs analog voltage according to its pressure. This output voltage is fed to the DS2438 where it is converted into a digital value and transferred over the OneWire network. To read more about the inner working of the IC's on this module see the related documentation under the Resources section of the site.</span>
                             </div>
                             <div>
                             <h3 class="centered-text">Source Code</h3>
                             <h5>Required Libraries</h5>
     <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #include &ltOneWire.h&gt
-    #include &ltDS2438.h&gt //OneWire Battary Monitor found in the Tempurature, Humidity & Solar sensor, as well as Barometer</code></pre>
+    #include &ltDS2438.h&gt //OneWire Battery Monitor found in the Temperature, Humidity & Solar sensor, as well as Barometer</code></pre>
     
                             <h5>Initialization</h5>
                             <pre class="prettyprint linenums code-blox">
     <code>OneWire oneWire(4); //OneWire on Digital 4
-    DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 };//Aquired with OneWireSniffer.ino
-    hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the class for humidty, temp & solar module</code></pre>
+    DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 };//Acquired with OneWireSniffer.ino
+    hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the class for humidity, temp & solar module</code></pre>
     
                             <h5>Code to add to the setup() function</h5>
                             <pre class="prettyprint linenums code-blox">
@@ -322,14 +322,84 @@
 						</div>
 					</div>
 					<div id="hum" class="pill-pane fade in row-fluid well">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					    <h2 class="centered-text">Humidity</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src=""></img>
+						    </br>
+						    <h3>Overview</h3>
+							<span class="span7">The humidity sensor on the Humidity, Temperature, and Solar module is a *???*. This unit is an analog device, and its readings are digitized on the same DS2438 battery monitor as the solar meter.</span>
+						</div>
 							
 					</div>
 					<div id="solar" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</div>
 					<div id="temp" class="pill-pane fade in row-fluid well">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					    <h2 class="centered-text">Temperature</h2>
+						<div class="span12">
+						    <img class="img-polaroid span4 padded-image" src=""></img>
+						    </br>
+						    <h3>Overview</h3>
+                            <span class="span7">Temperature is for the OpenWeather++ system is calculated within the HobbyBoards Temperature, Humidity, and Solar module. This process is accomplished with the Dallas Semiconductor DS18S20. The DS18S20 is a One Wire IC belonging to a family of DS18xx digital thermometers. These digital thermometers require <a rel="tooltip" data-placement="top" data-original-title="At most a 4.7k pull up resistor, power, data-line, and ground." id="wind-dir-ttip">little circuitry</a> to operate on the One Wire bus and can be be wired in as an individual module if your build is requires a reduced cost. The devices at the time of writing this build guide can be purchased from 2 to 5 US dollars. The DS18S20 provides an 8-bit temperature resolution. If greater accuracy is required, the <a rel="tooltip" data-placement="top" data-original-title="12-bits of resolution" id="wind-dir-ttip">DS18B20</a> should be used instead. Weather used inside the HobbyBoards module or as a stand alone meter, the cost, simplicity and accuracy of the DS18xx line of thermometers makes it a must in any form of OpenWeather++ build.</span>
+                            </div>
+                            <div>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>Required Libraries</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #include &ltOneWire.h&gt</code></pre>
+    
+                            <h5>Initialization</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>OneWire oneWire(4); //OneWire instantiation on Arduino Digital Pin 4</code></pre>
+    
+                            <h5>Code to add to the setup() function</h5>
+                            <pre class="prettyprint linenums code-blox">
+    <code>Serial.begin(9600); //For serial debugging</code></pre>
+    
+                            <h5>Code to add to the loop() function</h5>
+                            <pre class="prettyprint linenums code-blox"><code>getTemp();//Call our function to return a temp;</code></pre>
+							
+							<h5>getTemp function prototype</h5>
+<pre class="prettyprint linenums code-blox"><code>	//function to retrieve temp in cel from oneWire18s20 or oneWire1820
+float getTemp(){
+	byte i;
+	byte data[12];
+	int Temp;
+	oneWire.reset();
+	oneWire.select(oneWire18x20_address);
+	oneWire.write(0x44,1);	   // start conversion, with parasite power on at the end
+	// Resolution	            9 bit	10 bit	11 bit	12 bit
+	// Conversion Time (ms)	93.75	187.5	375	    750
+	// LSB (°C)	            0.5	    0.25	0.125	0.0625
+	delay(750);     
+	oneWire.reset();
+	oneWire.select(oneWire18x20_address);    
+	oneWire.write(0xBE);	   // Read Scratchpad
+	for ( i = 0; i < 9; i++) {	     // we need 9 bytes (9 byte resolution on oneWire1820 & oneWire18s20)
+	data[i] = oneWire.read();
+	}
+	Temp=(data[1]<<8)+data[0];//take the two bytes from the response relating to temperature
+	Temp=Temp>>1;//divide by 16 to get pure Celsius readout
+	Temp=Temp*1.8+32; // comment this line out to get fahrenheit 
+	float t = Temp;
+	return t;
+}</code></pre>
+						</div>
+						<div>
+						    <h3 class="centered-text">Unit Testing</h3>
+						    <div class="well">
+								The DS18S20 comes pre-calibrated and tested from the factory, with an error tolerance of .5 &degCelsius between -10 &degC and 85 &degC. However to ensure proper reading of the thermometer, a unit test should be done after interfacing with the DS18S20. To test a second thermometer known to be accurate will be needed as a control. The test will also require a computer and micro-controller or other form of communication to log readings from the DS18S20.
+								<br>
+								<br>
+							    <ol>
+									<li>Let both thermometers sit in the current environment for one minute to ensure stable readings.</li>
+									<li>After one minute, begin data polling both thermometers every 30 seconds for two minutes.</li>
+									<li>Once the two minutes of testing is up, compute the average for each thermometers and compare results.</li>
+									<li>If the thermometers differ more than two degrees check the source code of the DS18S20 for accuracy.</li>
+							    </ol>
+								<span class="label label-info">Note</span> Although the thermometers may have subtle differences in readings, this does not indicate that the DS18S20 is faulty.
+						    </div>
+						</div>
+					
 					</div>
 					<div id="lightning" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
