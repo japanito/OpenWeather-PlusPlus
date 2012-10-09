@@ -96,15 +96,18 @@ float ds2438::readPressure()
 
 float ds2438::calcPressureError(float pressure, float temp)
 {
-	if(pressure > 15 && pressure < 115)
-		float ErrorBand = 1.5;
-	else
-		float ErrorBand = 3;
+    writeSetup(0x0F); // read source voltage for formula
+    float sourceVolt = readVolt();
 	
-	if(temp > 85 || temp < 0)
-		return ErrorBand *= 3;
-	else
-		return ErrorBand;
+	//All error functions derived from MPXA4115A datasheet
+	if (pressure > 15 && pressure < 115) float pressureError = 1.5;
+	else float pressureError = 1;
+	
+	if (temp > 85) float tempError = 1 + (temp*.05);
+	else if (temp < 0) float tempError = 1 + (-1*temp*.05);
+	else float tempError = 1;
+	
+	return tempError*pressureError*.009*sourceVolt;
 }
 
 float ds2438::readHum()
