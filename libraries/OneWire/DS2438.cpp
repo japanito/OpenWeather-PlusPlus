@@ -79,6 +79,34 @@ float ds2438::readAD()
   return sensorVolt / sourceVolt;
 }
 
+float ds2438::readPressure()
+{
+    writeSetup(0x0F); // read source voltage for formula
+    float sourceVolt = readVolt();
+    
+	writeSetup(0x00); // back to humidity voltage
+    float sensorVolt = readVolt();
+	/*Computed barometric pressure in values of kPa
+	Error tolerance will be computed server side
+	ErrorBand: 15 to 115 kPa +- 1.5kPa
+	If(temp > 85 || temp < 0) ErrorBand *= 3;*/
+		
+	return((((sensorVolt/sourceVolt)+.095)/.009));
+}
+
+float ds2438::calcPressureError(float pressure, float temp)
+{
+	if(pressure > 15 && pressure < 115)
+		float ErrorBand = 1.5;
+	else
+		float ErrorBand = 3;
+	
+	if(temp > 85 || temp < 0)
+		return ErrorBand *= 3;
+	else
+		return ErrorBand;
+}
+
 float ds2438::readHum()
 {
   // humidity can be calculated via two methods with the HIH-4010

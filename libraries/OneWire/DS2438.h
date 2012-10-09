@@ -57,6 +57,8 @@ class ds2438
     float readAD();
     float readHum();
     float readCurrent();
+	float readPressure();
+	float calcPressureError(float pressure, float temp);
 
   private:
     OneWire* _wire;
