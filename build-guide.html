@@ -321,18 +321,41 @@
 						    </div>
 						</div>
 					</div>
+					
 					<div id="hum" class="pill-pane fade in row-fluid well">
 					    <h2 class="centered-text">Humidity</h2>
 						<div class="span12">
 						    <img class="img-polaroid span4 padded-image" src=""></img>
 						    </br>
 						    <h3>Overview</h3>
-							<span class="span7">The humidity sensor on the Humidity, Temperature, and Solar module is a *???*. This unit is an analog device, and its readings are digitized on the same DS2438 battery monitor as the solar meter.</span>
+							<span class="span7">The humidity sensor on the Humidity, Temperature, and Solar module is a Honeywell HIH-3610. This unit is an analog device, and its readings are digitized on the same DS2438 battery monitor as the solar meter. To switch between the two we updated register calls within the DS2438 library, allowing you to simply call a function to read either solar voltage or humidity voltage. Humidity voltage is linear from 0&degC to 100&degC at a slop of (Vout-0.958)/0.0307 where Vout is your return voltage from the DS2438.</span>
+                            <h3 class="centered-text">Source Code</h3>
+                            <h5>Required Libraries</h5>
+    <pre class="prettyprint linenums code-blox"><code class-action="lang-c">    #include &ltOneWire.h&gt
+    #include &ltDS2438.h&gt //OneWire Battery Monitor found in the Temperature, Humidity & Solar sensor, as well as Barometer</code></pre>
 						</div>
-							
+                        <h5>Initialization</h5>
+                        <pre class="prettyprint linenums code-blox">
+<code>OneWire oneWire(4); //OneWire on Digital 4
+DeviceAddress humidity_temp_solar = { 0x26,0x8A,0x9F,0x21,0x01,0x00,0x00,0xC8 };//Acquired with OneWireSniffer.ino
+hum_temp_sol ds2438(&oneWire, humidity_temp_solar); //Create the instance of the class for humidity, temp & solar module</code></pre>
+    
+                        <h5>Code to add to the setup() function</h5>
+                        <pre class="prettyprint linenums code-blox">
+<code>Serial.begin(9600); //For serial debugging</code></pre>
+    
+                        <h5>Code to add to the loop() function</h5>
+                        <pre class="prettyprint linenums code-blox"><code>    Serial.println(); //This line and the next are only necessary for serial debugging/demonstration
+Serial.print("Barometric Pressure (inHG): ");
+Serial.print(barometer.readAD());</code></pre>							
 					</div>
+					
 					<div id="solar" class="pill-pane fade in row-fluid well">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						
+						
+						
+						
 					</div>
 					<div id="temp" class="pill-pane fade in row-fluid well">
 					    <h2 class="centered-text">Temperature</h2>
