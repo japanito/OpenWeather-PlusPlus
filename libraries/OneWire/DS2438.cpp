@@ -90,8 +90,8 @@ float ds2438::readPressure()
 	Error tolerance will be computed server side
 	ErrorBand: 15 to 115 kPa +- 1.5kPa
 	If(temp > 85 || temp < 0) ErrorBand *= 3;*/
-		
-	return((((sensorVolt/sourceVolt)+.095)/.009));
+	
+	return((sensorVolt/sourceVolt)+.095)/.009);
 }
 
 float ds2438::calcPressureError(float pressure, float temp)
